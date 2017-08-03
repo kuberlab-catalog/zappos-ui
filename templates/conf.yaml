@@ -17,7 +17,7 @@ data:
         }
         location ~ "^(.*)/data/" {
           rewrite "^(.*)/data/(.*)$" /data/$2 break;
-          proxy_pass  http://{{ .Values.model }}.{{ .Values.app }}.svc.cluster.local:{{ .Values.port }}
+          proxy_pass  http://{{ .Values.model }}.{{ .Values.app }}.svc.cluster.local:{{ .Values.port }};
         }
         location /data/ {
           proxy_pass http://{{ .Values.model }}.{{ .Values.app }}.svc.cluster.local:{{ .Values.port }}/data/;
