@@ -15,6 +15,9 @@ data:
         location =/ {
           proxy_pass http://{{ .Values.model }}.{{ .Values.app }}.svc.cluster.local:{{ .Values.port }}/;
         }
+        location ~ "^/[a-f\d]{7}/(data)/" {
+          rewrite "^/[a-f\d]{7}/(data)/(.*)$" /$1/$2 break;
+        }
         location /data/ {
           proxy_pass http://{{ .Values.model }}.{{ .Values.app }}.svc.cluster.local:{{ .Values.port }}/data/;
         }
