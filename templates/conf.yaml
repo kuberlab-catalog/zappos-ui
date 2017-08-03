@@ -13,7 +13,7 @@ data:
         gzip_types  text/plain text/html application/xml;
         gzip_proxied any;
         location =/ {
-          proxy_pass {{ .Values.model }}.{{ .Values.app }}.svc.cluster.local:{{ .Values.port }}/;
+          proxy_pass http://{{ .Values.model }}.{{ .Values.app }}.svc.cluster.local:{{ .Values.port }}/;
         }
         location / {
               try_files $uri $uri/ /;
