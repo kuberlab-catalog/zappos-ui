@@ -1,0 +1,3 @@
+model: serving-standalone-2
+app: zappos-set
+port: 5000

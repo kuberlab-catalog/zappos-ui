@@ -1,0 +1,25 @@
+apiVersion: v1
+data:
+  nginx.conf: |
+    events {
+      worker_connections  4096;  ## Default: 1024
+    }
+    http {
+      server {
+        listen 80;
+        client_max_body_size 60M;
+
+        gzip on;
+        gzip_types  text/plain text/html application/xml;
+        gzip_proxied any;
+        location =/ {
+          proxy_pass {{ .Values.model }}.{{ .Values.app }}.svc.cluster.local:{{ .Values.port }}/
+        }
+        location / {
+              try_files $uri $uri/ /;
+        }
+      }
+    }
+kind: ConfigMap
+metadata:
+  name: router

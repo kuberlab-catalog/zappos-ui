@@ -1,0 +1,13 @@
+Description: Zappos UI Demo
+Engine: gotpl
+Home: http://kuberlab.com
+Icon: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwmSxoPPuSYBFO9snorqVWFehr9Pkf4tSOhdLM6FXT2aqxcLp60A
+Keywords:
+- kubernets
+- demo
+- zappos
+Maintainers:
+- Email: agunin@kuberlab.com
+  Name: Gunin Alexander
+Name: zappos-ui
+Version: 1.0.0
