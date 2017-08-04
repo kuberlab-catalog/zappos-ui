@@ -3,7 +3,7 @@ const restify = require('restify');
 
 const request = require('request');
 
-const API_URL = 'https://b230e127-f938-4e94-99c9-c3e9f6a26fcf.dev.kuberlab.io/';
+const API_URL = process.env.API_URL;
 const IMG_PATH = '/api/v1/proxy/namespaces/zappos-ui/services/controller:80';
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
