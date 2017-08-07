@@ -1,0 +1,40 @@
+.cmp-upload-widget {
+  form {
+    position: relative;
+
+    input {
+      opacity: 0;
+    }
+
+    button {
+      width: 300px;
+      display: block;
+      height: 50px;
+      font-size: 20px;
+      background: #4371CE;
+      border: 1px solid #ccc;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+
+      &:hover {
+        background: lighten(#4371CE, 10%)
+      }
+    }
+
+    .upload {
+      position: absolute;
+      left: 0;
+    }
+
+    .reset {
+      position: relative;
+      left: 350px;
+      background: orange;
+
+      &:hover {
+        background: lighten(orange, 10%)
+      }
+    }
+  }
+}
