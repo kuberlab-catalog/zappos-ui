@@ -1,23 +1,34 @@
-import {UPLOAD_FILE, SET_LOADING, SET_SELECTED_FILE, SET_SELECTED_ITEM} from './actions';
+import {SET_FILE_LIST, SET_LOADING, SET_UPLOADED_FILE, RESET, SET_SIMILAR_LIST} from './actions';
 
-function mainReducer(state = {list: []}, action) {
+const STATE = {list: [], similar: []};
+
+function mainReducer(state = STATE, action) {
   switch (action.type) {
     case SET_LOADING:
       return Object.assign({}, state, {
         isLoading: action.isLoading
       });
-    case UPLOAD_FILE:
+    case SET_FILE_LIST:
       return Object.assign({}, state, {
         list: action.body
       });
-    case SET_SELECTED_FILE:
+    case SET_SIMILAR_LIST:
+      const similar = [...state.similar];
+      similar[action.index] = action.body.slice(0, 5);
+
+      return {
+        ...state,
+        similar: similar
+      };
+    case SET_UPLOADED_FILE:
+      const list = [...state.list];
+      list[5] = action.file;
+
       return Object.assign({}, state, {
-        selectedFile: action.file
+        list: list
       });
-    case SET_SELECTED_ITEM:
-      return Object.assign({}, state, {
-        selectedItem: action.index
-      });
+    case RESET:
+      return Object.assign({}, STATE);
     default:
       return state;
   }

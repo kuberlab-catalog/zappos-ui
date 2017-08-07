@@ -1,7 +1,33 @@
-export const UPLOAD_FILE = 'UPLOAD_FILE';
+export const SET_FILE_LIST = 'SET_FILE_LIST';
+export const SET_SIMILAR_LIST = 'SET_SIMILAR_LIST';
 export const SET_LOADING = 'SET_LOADING';
-export const SET_SELECTED_FILE = 'SET_SELECTED_FILE';
-export const SET_SELECTED_ITEM = 'SET_SELECTED_ITEM';
+export const SET_UPLOADED_FILE = 'SET_UPLOADED_FILE';
+export const RESET = 'RESET';
+
+export function getRandomFiles() {
+  return dispatch => {
+    dispatch({
+      type: SET_LOADING,
+      isLoading: true
+    });
+
+    return fetch('/api/getRandom')
+      .then((response) => response.json())
+      .then((json) => {
+        dispatch({
+          type: SET_FILE_LIST,
+          body: json
+        });
+
+        dispatch({
+          type: SET_LOADING,
+          isLoading: false
+        });
+
+        return json;
+      });
+  };
+}
 
 export function uploadFile(body) {
   return dispatch => {
@@ -14,8 +40,9 @@ export function uploadFile(body) {
       .then((response) => response.json())
       .then((json) => {
         dispatch({
-          type: UPLOAD_FILE,
-          body: json
+          type: SET_SIMILAR_LIST,
+          body: json,
+          index: 5
         });
 
         dispatch({
@@ -23,17 +50,12 @@ export function uploadFile(body) {
           isLoading: false
         });
 
-        dispatch({
-          type: SET_SELECTED_ITEM,
-          item: null
-        });
-
         return json;
       });
   };
 }
 
-export function searchBy(fileName) {
+export function searchBy(fileName, index) {
   const form = new FormData();
   form.append('fileName', fileName);
 
@@ -47,23 +69,14 @@ export function searchBy(fileName) {
       .then((response) => response.json())
       .then((json) => {
         dispatch({
-          type: UPLOAD_FILE,
-          body: json
-        });
-
-        dispatch({
-          type: SET_SELECTED_FILE,
-          file: fileName
+          type: SET_SIMILAR_LIST,
+          body: json,
+          index: index
         });
 
         dispatch({
           type: SET_LOADING,
           isLoading: false
-        });
-
-        dispatch({
-          type: SET_SELECTED_ITEM,
-          item: null
         });
 
         return json;
@@ -75,10 +88,10 @@ export function setLoading(isLoading) {
   return {type: SET_LOADING, isLoading: isLoading};
 }
 
-export function setSelectedFile(file) {
-  return {type: SET_SELECTED_FILE, file: file};
+export function setUploadedFile(file) {
+  return {type: SET_UPLOADED_FILE, file: file};
 }
 
-export function setSelectedItem(index) {
-  return {type: SET_SELECTED_ITEM, index: index};
+export function reset() {
+  return {type: RESET};
 }

@@ -3,37 +3,56 @@ import {connect} from 'react-redux';
 import * as Actions from '../../../actions';
 import {bindActionCreators} from 'redux';
 
+import UploadWidget from '../Upload';
+
 import './styles.scss';
 
 class ListWidget extends React.Component {
+  constructor(props) {
+    super();
+
+    props.actions.getRandomFiles();
+  }
+
   render() {
     if (!this.props.list.length) return null;
 
     return (
       <div className="cmp-list-widget">
-        <h3>Found similar images:</h3>
         <ul>
           {this.props.list.map((value, index) => {
-              const liClass1 = this.props.selectedItem === index ? 'active' : '';
-              const liClass2 = this.props.isLoading && liClass1 !== 'active' ? 'disabled' : '';
-
               return (
-                <li key={index} className={`${liClass1} ${liClass2}`}>
-                  <img src={value} alt="image" title="Select image to start search"
+                <li key={index}>
+                  <img src={value} alt="image" title="Select image to see similar"
                        onClick={this.searchByImage.bind(this, index)} />
+                  <ol>
+                    {this.renderSimilar(index)}
+                  </ol>
                 </li>
               )
             }
           )}
+          <li>
+            <UploadWidget />
+          </li>
         </ul>
       </div>
     );
   }
 
-  searchByImage = (index, event) => {
-    this.props.actions.setSelectedItem(index);
+  renderSimilar(index) {
+    const list = this.props.similar[index];
+    if (!list) return null;
 
-    this.props.actions.searchBy(event.target.src);
+    return list.map((value, index) =>
+      <li key={index}>
+        <img src={value} alt="image" />
+      </li>
+    );
+  }
+
+  searchByImage = (index, event) => {
+    this.props.actions.searchBy(event.target.src, index);
   };
 
 }
@@ -41,8 +60,8 @@ class ListWidget extends React.Component {
 function mapStateToProps(state) {
   return {
     list: state.list,
-    selectedItem: state.selectedItem,
-    isLoading: state.isLoading
+    isLoading: state.isLoading,
+    similar: state.similar
   }
 }
 

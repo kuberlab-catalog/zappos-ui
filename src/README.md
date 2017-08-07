@@ -16,11 +16,13 @@ webpack --watch --watch-poll # for dev
 
 
 Set `API_URL` env to your API.
+Set `IMAGES_PATH` env to your images.
 
 
 ```bash
 npm i
-API_URL=https://b230e127-f938-4e94-99c9-c3e9f6a26fcf.dev.kuberlab.io/ node index.js # run server
+API_URL=https://bb30881c-d76e-40e0-b6cd-cfceaf9a0258.dev.kuberlab.io/ IMAGES_PATH=~/Downloads/ut-zap50k-images node index.js # run 
+server
 ```
 
 

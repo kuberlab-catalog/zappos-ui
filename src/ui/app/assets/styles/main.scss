@@ -1,3 +1,5 @@
+@import './mixin.scss';
+
 html {
   font-family: Verdana, sans-serif;
 }
@@ -9,7 +11,15 @@ body,
   height: 100%;
 }
 
-.disabled {
-  opacity: 0.7;
-  pointer-events: none;
+.loader {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+}
+
+.is-loading {
+  .loader {
+    display: block;
+  }
 }

@@ -1,31 +1,38 @@
+@import '../../../assets/styles/mixin.scss';
+
 .cmp-list-widget {
-  width: 70%;
-  margin: 50px auto;
+  margin: 25px;
 
   ul {
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
 
-    li {
-      box-shadow: 1px 1px 7px #ccc;
-      margin: 10px;
-      cursor: pointer;
-
-      &:hover {
-        box-shadow: 1px 1px 7px #6b90d9;
-        transform: scale(1.1);
+    > li {
+      img {
+        box-shadow: 1px 1px 7px #ccc;
+        margin: 10px;
       }
 
-      &.active {
-        box-shadow: 1px 1px 7px lightcoral;
-        transform: scale(1.1);
+      > img {
+        cursor: pointer;
+
+        &:hover {
+          box-shadow: 1px 1px 7px #6b90d9;
+          transform: scale(1.1);
+        }
+      }
+
+      ol {
+        display: inline-flex;
+        vertical-align: top;
+      }
+
+      &:nth-child(6) {
+        img {
+          @extend .disabled;
+        }
       }
     }
-  }
-
-  h3 {
-    font-size: 19px;
-    margin: 10px 0;
-    color: #333;
   }
 }

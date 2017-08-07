@@ -4,15 +4,19 @@ const restify = require('restify');
 const request = require('request');
 
 const API_URL = process.env.API_URL;
+const IMAGES_PATH = process.env.IMAGES_PATH;
+
 const IMG_PATH = '/api/v1/proxy/namespaces/zappos-ui/services/controller:80';
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 const server = restify.createServer();
 
-server.use(restify.plugins.bodyParser({
-  mapFiles: true
-}));
+server
+  .use(restify.plugins.bodyParser({
+    mapFiles: true
+  }))
+  .use(restify.plugins.queryParser());
 
 function searchByFile(res, file) {
   return request.post({url: API_URL, formData: {file: file}},
@@ -30,6 +34,60 @@ function searchByFile(res, file) {
       return res.end(JSON.stringify(data));
     });
 }
+
+const readDirectory = (path, criteria) => {
+  return new Promise((resolve, reject) => {
+    fs.readdir(path, (err, files) => {
+      if (err) {
+        console.error(err);
+        return reject(err);
+      }
+
+      const filtering = files.filter((file) => !file.match(/^\./));
+      resolve(filtering);
+    });
+  })
+};
+
+async function readRandomFile(path) {
+  const files = await readDirectory(path);
+  const randomNumber = Math.floor(Math.random() * files.length);
+  return files[randomNumber];
+}
+
+async function find5RandomFiles() {
+  let files = [];
+
+  for (let i = 0; i < 5; ++i) {
+    let file;
+    let path = IMAGES_PATH;
+
+    while (!file) {
+      let foundFile = await readRandomFile(path);
+
+      path = `${path}/${foundFile}`;
+      if (!fs.lstatSync(path).isDirectory()) {
+        file = path;
+        files.push(file);
+      }
+    }
+  }
+
+  return files;
+}
+
+server.get('/api/getRandom', async (req, res) => {
+  const files = await find5RandomFiles();
+  const result = files.map((value) => value.replace(IMAGES_PATH, '/api/get?file='));
+
+  res.json(result);
+});
+
+server.get('/api/get', (req, res) => {
+  const safeFilePath = req.query.file.replace('../', '/');
+
+  fs.createReadStream(`${IMAGES_PATH}${safeFilePath}`).pipe(res);
+});
 
 server.post('/api/upload', (req, res) => {
   if (req.files) {
