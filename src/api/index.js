@@ -6,7 +6,7 @@ const request = require('request');
 const API_URL = process.env.API_URL;
 const IMAGES_PATH = process.env.IMAGES_PATH;
 
-const IMG_PATH = '/api/v1/proxy/namespaces/zappos-ui/services/controller:80';
+const IMG_PATH = '/images';
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
