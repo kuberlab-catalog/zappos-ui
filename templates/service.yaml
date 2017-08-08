@@ -6,9 +6,10 @@ metadata:
     app: controller
 spec:
   ports:
-  - port: 80
+  - port: 8888
     targetPort: 8888
     protocol: TCP
     name: http
   selector:
     app: controller
+    component: zappos

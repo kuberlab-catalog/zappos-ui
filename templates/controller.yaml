@@ -8,6 +8,7 @@ spec:
     metadata:
       labels:
         app: controller
+        component: zappos
     spec:
       containers:
       - name: controller
