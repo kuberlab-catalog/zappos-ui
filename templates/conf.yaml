@@ -16,8 +16,11 @@ data:
           proxy_pass http://controller.{{ .Release.Namespace }}.svc.cluster.local:8888/;
         }
         location /api/v1/proxy/namespaces/{{ .Release.Namespace }}/services/nginx-controller:80/ {
-            proxy_pass http://controller.{{ .Release.Namespace }}.svc.cluster.local:8888/;
-         }
+          proxy_pass http://controller.{{ .Release.Namespace }}.svc.cluster.local:8888/;
+        }
+        location /images/data/ {
+          proxy_pass http://controller.{{ .Release.Namespace }}.svc.cluster.local:8888/api/get?file=/;
+        }
       }
     }
 kind: ConfigMap
