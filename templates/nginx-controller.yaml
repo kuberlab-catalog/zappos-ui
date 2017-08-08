@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nginx-controller
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: controller
+        component: nginx
+    spec:
+      containers:
+      - name: controller
+        image:  nginx:1.10.1
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: /etc/nginx
+          name: config
+      volumes:
+      - name: config
+        configMap:
+          name: router
+          items:
+          - key: nginx.conf
+            path: nginx.conf
