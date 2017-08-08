@@ -28,7 +28,7 @@ function searchByFile(res, file) {
       let data = body.match(/\/data\/.*\.jpg/g);
 
       if (data && data.length) {
-        data = data.map((value) => `${API_URL}${IMG_PATH}${value}`);
+        data = data.map((value) => `${IMG_PATH}${value}`);
       }
 
       return res.end(JSON.stringify(data));
