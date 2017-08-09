@@ -1,5 +1,6 @@
 const fs = require('fs');
 const restify = require('restify');
+const morgan = require('morgan');
 
 const request = require('request');
 
@@ -16,7 +17,8 @@ server
   .use(restify.plugins.bodyParser({
     mapFiles: true
   }))
-  .use(restify.plugins.queryParser());
+  .use(restify.plugins.queryParser())
+  .use(morgan('combined'));
 
 function searchByFile(res, file) {
   return request.post({url: API_URL, formData: {file: file}},
@@ -35,7 +37,7 @@ function searchByFile(res, file) {
     });
 }
 
-const readDirectory = (path, criteria) => {
+const readDirectory = (path) => {
   return new Promise((resolve, reject) => {
     fs.readdir(path, (err, files) => {
       if (err) {
